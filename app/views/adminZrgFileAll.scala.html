@@ -1,0 +1,84 @@
+@(files: List[ZrgFile])
+
+@adminmain("All Files") {
+    @if(flash.contains("error")){
+        <p data-alert class="alert-box warning ">
+        @flash.get("error")
+        </p>
+    }
+    @if(flash.contains("success")){
+        <p data-alert class="alert-box info ">
+        @flash.get("success")
+        </p>
+    }
+    @if(flash.contains("info")){
+        <p data-alert class="alert-box info ">
+        @flash.get("info")
+        </p>
+    }
+    <div class="large-12 columns">
+        <div class="row">
+            <div class="large-12 columns">
+                <label>Upload a file</label>
+            </div>
+        </div>
+        <div class="row">
+
+            <div class="large-3 medium-3 small-12 columns">
+                <i class="fi-upload large z-iup-icon"></i>
+                <input type="file" id="zrgFile" name="zrgFile" multiple placeholder="f" data-url="@routes.Admin.adminUploadFile()">
+            </div>
+
+            <div class="large-9 medium-9 small-12 columns">
+                <div class="row z_file_progress_container">
+                    <div class="progress small success radius round" id="zrgFileProgress">
+                        <span class="meter" style="width : 1 % ;"></span>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+    <hr>
+    <div class="large-12 columns">
+        @if(files.length > 0) {
+            <table class="responsive z-file-list-table">
+                <tbody>
+                    <tr>
+                        <th width="50">Id</th>
+                        <th width="250">File Name</th>
+                        <th width="100">File Type</th>
+                        <th width="50">File Size</th>
+                        <th width="50">Active</th>
+                        <th width="50">Created</th>
+                        <th width="50">Action</th>
+                    </tr>
+                    @for(file <- files if(file.isActive)) {
+                        <tr>
+                            <td>@file.id</td>
+                            <td>@file.fileName</td>
+                            <td>@file.fileType</td>
+                            <td>@file.fileSize</td>
+                            <td>@file.isActive</td>
+                            <td>@file.createdAt</td>
+                            <td>
+                                <a href="@routes.Admin.adminRemoveFile(file.id)">
+                                <i class="fi-trash"></i>
+                                </a>
+                                <a target="_blank" href="/public/files/@file.fileName">
+                                    <i class="fi-magnifying-glass"></i>
+                                </a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+        @if(files.length < 1) {
+            <div data-alert class="alert-box info ">
+                <h5>We don't have any file at the moment bro, you can upload</h5>
+            </div>
+        }
+    </div>
+}

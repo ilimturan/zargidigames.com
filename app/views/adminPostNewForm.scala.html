@@ -1,0 +1,44 @@
+@(myForm: Form[Post])
+@import helper._
+@adminmain("Add new Post") {
+    <div class="large-12 columns">
+        @if(flash.contains("error")){
+            <p data-alert class="alert-box warning ">
+                @flash.get("error")
+            </p>
+        }
+        @if(flash.contains("success")){
+        <p data-alert class="alert-box info ">
+            @flash.get("success")
+        </p>
+        }
+        @if(flash.contains("info")){
+        <p data-alert class="alert-box info ">
+            @flash.get("info")
+        </p>
+        }
+        @helper.form(action = routes.Admin.adminPostSave(), 'class -> ""){
+
+            <fieldset>
+                <legend>Add new post</legend>
+
+                <label for="title">Post title</label>
+                <input id="title" name="title" type="text" placeholder="Post title">
+
+                <label for="text">Post text</label>
+                <textarea id="text" name="text" placeholder="Post text" rows="10"></textarea>
+
+                <label for="keywords">Post keywords</label>
+                <input id="keywords" name="keywords" type="text" placeholder="Keywords">
+
+                <label for="urlSlug">Post slug</label>
+                <input id="urlSlug" name="urlSlug" type="text" placeholder="urlSlug">
+
+
+
+                <button type="submit" class="button radius success">Save Post</button>
+            </fieldset>
+        }
+    </div>
+
+}

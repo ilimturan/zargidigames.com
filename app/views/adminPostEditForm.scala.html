@@ -1,0 +1,70 @@
+@(post: Post)
+@adminmain("Edit Post") {
+    <div class="large-12 columns">
+        @if(flash.contains("error")){
+            <p data-alert class="alert-box warning ">
+                @flash.get("error")
+            </p>
+        }
+        @if(flash.contains("success")){
+        <p data-alert class="alert-box info ">
+            @flash.get("success")
+        </p>
+        }
+        @if(flash.contains("info")){
+        <p data-alert class="alert-box info ">
+            @flash.get("info")
+        </p>
+        }
+        @helper.form(action = routes.Admin.adminPostEditUpdate(post.id), 'class -> ""){
+
+            <fieldset>
+                <legend>Edit post</legend>
+
+                <input id="id" name="id" type="hidden" value="@post.id">
+
+                <label for="title">Post title</label>
+                <input id="title" name="title" type="text" placeholder="Post title" value="@post.title">
+
+                <label for="text">Post text</label>
+                <textarea id="text" name="text" placeholder="Post text" rows="10">@post.text</textarea>
+
+                <label for="keywords">Post keywords</label>
+                <input id="keywords" name="keywords" type="text" placeholder="Keywords" value="@post.keywords">
+
+                <label for="urlSlug">Post slug</label>
+                <input id="urlSlug" name="urlSlug" type="text" placeholder="urlSlug" value="@post.urlSlug">
+
+                <div class="row">
+                    <div class="large-6 medium-6 small-6 columns">
+                        <label for="">Is active</label>
+                        <div class="switch">
+                            @if(post.isActive) {
+                                <input id="isActive" name="isActive" type="checkbox" checked>
+                            } else {
+                                <input id="isActive" name="isActive" type="checkbox">
+                            }
+                            <label for="isActive"></label>
+                        </div>
+                    </div>
+                    <div class="large-6 medium-6 small-6 columns">
+                        <label for="">Show on main page</label>
+                        <div class="switch">
+                            @if(post.showMainPage) {
+                                <input id="showMainPage" name="showMainPage" type="checkbox" checked>
+                            } else {
+                                <input id="showMainPage" name="showMainPage" type="checkbox">
+                            }
+                            <label for="showMainPage"></label>
+                        </div>
+                    </div>
+                </div>
+
+
+
+                <button type="submit" class="button radius success">Update Post</button>
+            </fieldset>
+        }
+    </div>
+
+}

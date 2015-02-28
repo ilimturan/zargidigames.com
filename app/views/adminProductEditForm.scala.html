@@ -1,0 +1,451 @@
+@(product: Product)
+    @import helper._
+    @adminmain("Edit Product") {
+        <div class="large-12 columns">
+            @if(flash.contains("error")) {
+                <p data-alert class="alert-box warning ">
+                @flash.get("error")
+                </p>
+            }
+            @if(flash.contains("success")) {
+                <p data-alert class="alert-box info ">
+                @flash.get("success")
+                </p>
+            }
+            @if(flash.contains("info")) {
+                <p data-alert class="alert-box info ">
+                @flash.get("info")
+                </p>
+            }
+            @helper.form(action = routes.ControllerProduct.adminProductUpdate(product.id), 'enctype -> "multipart/form-data", 'class -> "pure-form pure-form-stacked") {
+
+                <fieldset>
+                    <legend>Edit Product</legend>
+                    <input type="hidden" name="id" value="@product.id" id="id">
+
+                    <div class="row">
+                        <div class="large-4 medium-4 small-4 columns">
+                            <label for="">Publish</label>
+
+
+                            <div class="switch">
+                                @if(product.isActive) {
+                                    <input id="isActive" name="isActive" type="checkbox" checked>
+                                } else {
+                                    <input id="isActive" name="isActive" type="checkbox">
+                                }
+                                <label for="isActive"></label>
+                            </div>
+                        </div>
+                        <div class="large-4 medium-4 small-4 columns">
+                            <label for="">Soon</label>
+
+
+                            <div class="switch">
+                                @if(product.isSoon) {
+                                    <input id="isSoon" name="isSoon" type="checkbox" checked>
+                                } else {
+                                    <input id="isSoon" name="isSoon" type="checkbox">
+                                }
+                                <label for="isSoon"></label>
+                            </div>
+                        </div>
+
+                        <div class="large-4 medium-4 small-4 columns">
+                            <label for="">Show Main page</label>
+                            <div class="switch">
+                                @if(product.showMainPage) {
+                                    <input id="showMainPage" name="showMainPage" type="checkbox" checked>
+                                } else {
+                                    <input id="showMainPage" name="showMainPage" type="checkbox">
+                                }
+                                <label for="showMainPage"></label>
+                            </div>
+                        </div>
+                    </div>
+
+
+
+
+                    <div class="">
+                        <label>Select product type</label>
+                        @if(product.ptype == 1) {
+                            <input type="radio" name="ptype" value="1" id="ptype" checked> <label for="ptype">
+                                Application</label>
+                        } else {
+                            <input type="radio" name="ptype" value="1" id="ptype" > <label for="ptype">Application</label>
+                        }
+
+                        @if(product.ptype == 2) {
+                            <input type="radio" name="ptype" value="2" id="ptype" checked> <label for="ptype">Game</label>
+                        } else {
+                            <input type="radio" name="ptype" value="2" id="ptype"> <label for="ptype">Game</label>
+                        }
+                    </div>
+
+
+                    <label for="title">Product title</label>
+                    <input id="title" name="title" type="text" placeholder="Product title" value="@product.title">
+
+                    <label for="descShort">Product short description </label>
+                    <textarea id="descShort" name="descShort" placeholder="Product short description">@product.descShort</textarea>
+
+                    <label for="descFull">Product full description</label>
+                    <textarea id="descFull" name="descFull" rows="5" placeholder="Product full description">@product.descFull</textarea>
+
+                    @* start icon *@
+                    <div class="row">
+                        <div class="large-12 columns">
+                            <label for="iconImg">Upload icon</label>
+                        </div>
+                        <div class="large-3 medium-3 columns">
+                            <div style="background:url('@routes.Assets.at("images/ic_upload.png")') center no-repeat ">
+                                <input type="file" id="iconImg" class="ic-upload" accept="image/*" name="icon" multiple value="Add icon" data-url="@routes.ControllerProduct.adminProductUploadImage(product.id, 1)" />
+
+                                <div class="z_progress_container">
+                                    <div class="progress small success radius round" id="iconProgress">
+                                        <span class="meter" style="width : 1 % ;"></span>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="large-9 medium-9 columns" >
+                            <div class="row icImgPrv" id="iconImgPrv">
+                                @if(product.icon != null && product.icon.id > 0 && product.icon.isActive) {
+                                    <div data-type="icon" data-id="@product.icon.id" class="large-4 medium-4 columns fi-cont" data-removeurl="@routes.ControllerProduct.adminProductRemoveImage(product.icon.id, 1)">
+                                        <i class="fi-x large fi-delete-img"></i>
+                                        <a class="th three columns" href="#">
+                                            <img class="" src="@routes.Assets.at("images/product/icon/" + product.icon.fileName)">
+                                        </a>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                    <hr>
+                    @* end icon *@
+
+                    @* start futureGraphic *@
+                    <div class="row">
+                        <div class="large-12 columns">
+                            <label for="futureGraphicImg">Upload future graphic</label>
+                        </div>
+                        <div class="large-3 medium-3 columns">
+                            <div style="background:url('@routes.Assets.at("images/ic_upload.png")') center no-repeat">
+                                <input type="file" id="futureGraphicImg" class="ic-upload" accept="image/*" name="futureGraphic" multiple value="Add futureGraphic" data-url="@routes.ControllerProduct.adminProductUploadImage(product.id, 2)" />
+
+                                <div class="z_progress_container">
+                                    <div class="progress small success radius round" id="futureGraphicProgress">
+                                        <span class="meter" style="width : 1 % ;"></span>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="large-9 medium-9 columns" >
+                            <div class="row icImgPrv" id="futureGraphicImgPrv">
+                            @if(product.futureGraphic != null && product.futureGraphic.id > 0 && product.futureGraphic.isActive) {
+                                <div data-type="futureGraphic" data-id="@product.futureGraphic.id" class="large-4 medium-4 columns fi-cont" data-removeurl="@routes.ControllerProduct.adminProductRemoveImage(product.futureGraphic.id, 2)">
+                                    <i class="fi-x large fi-delete-img"></i>
+                                    <a class="th three columns" href="#">
+                                        <img class="" src="@routes.Assets.at("images/product/futureGraphic/" + product.futureGraphic.fileName)">
+                                    </a>
+                                </div>
+                            }
+                            </div>
+                        </div>
+                    </div>
+                    <hr>
+                    @* end futureGraphic *@
+
+
+
+                    @* start promoGraphic *@
+                    <div class="row">
+                        <div class="large-12 columns">
+                            <label for="promoGraphicImg">Upload promo graphic</label>
+                        </div>
+                        <div class="large-3 medium-3 columns">
+                            <div style="background:url('@routes.Assets.at("images/ic_upload.png")') center no-repeat">
+                                <input type="file" id="promoGraphicImg" class="ic-upload" accept="image/*" name="promoGraphic" multiple value="Add promoGraphic" data-url="@routes.ControllerProduct.adminProductUploadImage(product.id, 3)" />
+
+                                <div class="z_progress_container">
+                                    <div class="progress small success radius round" id="promoGraphicProgress">
+                                        <span class="meter" style="width : 1 % ;"></span>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="large-9 medium-9 columns" >
+                            <div class="row icImgPrv" id="promoGraphicImgPrv">
+                            @if(product.promoGraphic != null && product.promoGraphic.id > 0 && product.promoGraphic.isActive) {
+                                <div data-type="promoGraphic" data-id="@product.promoGraphic.id" class="large-4 medium-4 columns fi-cont" data-removeurl="@routes.ControllerProduct.adminProductRemoveImage(product.promoGraphic.id, 3)">
+                                    <i class="fi-x large fi-delete-img"></i>
+                                    <a class="th three columns" href="#">
+                                        <img class="" src="@routes.Assets.at("images/product/promoGraphic/" + product.promoGraphic.fileName)">
+                                    </a>
+                                </div>
+                            }
+                            </div>
+                        </div>
+                    </div>
+                    <hr>
+                    @* end promoGraphic *@
+
+
+                    @* start tvBanner *@
+                    <div class="row">
+                        <div class="large-12 columns">
+                            <label for="tvBannerImg">Upload tv banner</label>
+                        </div>
+                        <div class="large-3 medium-3 columns">
+                            <div style="background:url('@routes.Assets.at("images/ic_upload.png")') center no-repeat">
+                                <input type="file" id="tvBannerImg" class="ic-upload" accept="image/*" name="tvBanner" multiple value="Add tvBanner" data-url="@routes.ControllerProduct.adminProductUploadImage(product.id, 4)" />
+
+                                <div class="z_progress_container">
+                                    <div class="progress small success radius round" id="tvBannerProgress">
+                                        <span class="meter" style="width : 1 % ;"></span>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="large-9 medium-9 columns" >
+                            <div class="row icImgPrv" id="tvBannerImgPrv">
+                            @if(product.tvBanner != null && product.tvBanner.id > 0 && product.tvBanner.isActive) {
+                                <div data-type="tvBanner" data-id="@product.tvBanner.id" class="large-4 medium-4 columns fi-cont" data-removeurl="@routes.ControllerProduct.adminProductRemoveImage(product.tvBanner.id, 4)">
+                                    <i class="fi-x large fi-delete-img"></i>
+                                    <a class="th three columns" href="#">
+                                        <img class="" src="@routes.Assets.at("images/product/tvBanner/" + product.tvBanner.fileName)">
+                                    </a>
+                                </div>
+                            }
+                            </div>
+                        </div>
+                    </div>
+                    <hr>
+                    @* end tvBanner *@
+
+                    @* start imagePhone *@
+                    <div class="row">
+                        <div class="large-12 columns">
+                            <label for="imagePhone">Upload Phone images</label>
+                        </div>
+                        <div class="large-3 medium-3 columns">
+                            <div style="background:url('@routes.Assets.at("images/ic_upload.png")') center no-repeat">
+                                <input type="file" id="imagePhone" class="ic-upload" accept="image/*" name="imagePhone" multiple value="Add imagePhone" data-url="@routes.ControllerProduct.adminProductUploadImage(product.id, 5)" />
+
+                                <div class="z_progress_container">
+                                    <div class="progress small success radius round" id="imagePhoneProgress">
+                                        <span class="meter" style="width : 1 % ;"></span>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="large-9 medium-9 columns" >
+                            <div class="row icImgPrv" id="imagePhoneImgPrv">
+                                @for(imagePhone <- product.imagesPhone){
+                                    @if(imagePhone.isActive) {
+                                        <div data-type="imagePhone" data-id="@imagePhone.id" class="large-4 medium-4 columns fi-cont" data-removeurl="@routes.ControllerProduct.adminProductRemoveImage(imagePhone.id, 5)">
+                                            <i class="fi-x large fi-delete-img"></i>
+                                            <a class="th three columns" href="#">
+                                                <img class="" src="@routes.Assets.at("images/product/phone/" + imagePhone.fileName)">
+                                            </a>
+                                        </div>
+                                    }
+                                }
+                            </div>
+                        </div>
+                    </div>
+                    <hr>
+                    @* end imagePhone *@
+
+
+                    @* start imageTablet *@
+                    <div class="row">
+                        <div class="large-12 columns">
+                            <label for="imageTablet">Upload Tablet images</label>
+                        </div>
+                        <div class="large-3 medium-3 columns">
+                            <div style="background:url('@routes.Assets.at("images/ic_upload.png")') center no-repeat">
+                                <input type="file" id="imageTablet" class="ic-upload" accept="image/*" name="imageTablet" multiple value="Add imageTablet" data-url="@routes.ControllerProduct.adminProductUploadImage(product.id, 6)" />
+
+                                <div class="z_progress_container">
+                                    <div class="progress small success radius round" id="imageTabletProgress">
+                                        <span class="meter" style="width : 1 % ;"></span>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="large-9 medium-9 columns" >
+                            <div class="row icImgPrv" id="imageTabletImgPrv">
+                            @for(imageTablet <- product.imagesTablet){
+                                @if(imageTablet.isActive) {
+                                    <div data-type="imageTablet" data-id="@imageTablet.id" class="large-4 medium-4 columns fi-cont" data-removeurl="@routes.ControllerProduct.adminProductRemoveImage(imageTablet.id, 6)">
+                                        <i class="fi-x large fi-delete-img"></i>
+                                        <a class="th three columns" href="#">
+                                            <img class="" src="@routes.Assets.at("images/product/tablet/" + imageTablet.fileName)">
+                                        </a>
+                                    </div>
+                                }
+                            }
+                            </div>
+                        </div>
+                    </div>
+                    <hr>
+                    @* end imageTablet *@
+
+
+                    @* start video *@
+                    <div class="row">
+                        <div class="large-12 columns">
+                            <label for="productVideo">Upload Video</label>
+                        </div>
+                            <div class="large-12 columns">
+                                <div class="row">
+                                    <div class="large-10 medium-10 small-10 columns">
+                                        <input type="text" id="productVideoInput" name="productVideoInput" placeholder="Video iframe code">
+                                    </div>
+                                    <div class="large-2 medium-2 small-2  columns">
+                                        <a href="#" data-url="@routes.ControllerProduct.adminProductUploadVideo(product.id)"  class="button postfix" id="productVideoButton" name="productVideoButton">Get</a>
+                                    </div>
+                                </div>
+                            </div>
+
+                        <div class="large-12 medium-12 columns" >
+                            <div class="row icImgPrv" id="productVideoImgPrv">
+                            @for(productVideo <- product.videos if(product.videos.size() > 0)){
+                                @if(productVideo.isActive) {
+                                    <div data-type="productVideo" data-id="@productVideo.id" class="large-6 medium-6 columns" data-removeurl="@routes.ControllerProduct.adminProductRemoveVideo(productVideo.id)">
+                                        <i class="fi-x large fi-delete-video"></i>
+                                        <div class="flex-video">
+                                            @Html(productVideo.videoHtmlCode)
+                                        </div>
+                                    </div>
+                                }
+                            }
+                            </div>
+                        </div>
+                    </div>
+                    <hr>
+                    @* end video *@
+
+                    @* Market *@
+                    <div class="row">
+                        <input type="hidden" name="marketId" value="@product.market.marketId">
+
+                        <div class="large-6 medium-6 columns">
+                            <h4>Android</h4>
+                            <div class="panel">
+                                <div class="row">
+                                    <div class="large-12 medium-12 columns">
+                                        <label for="marketAndroidUrl">Market Url</label>
+                                        <input id="marketAndroidUrl" name="marketAndroidUrl" type="text" placeholder="market android market url" value="@product.market.marketAndroidUrl">
+
+                                        <label for="marketAndroidIconUrl">Market Icon Url</label>
+                                        <input id="marketAndroidIconUrl" name="marketAndroidIconUrl" type="text" placeholder="market icon url" value="@product.market.marketAndroidIconUrl">
+
+                                        <label for="marketAndroidVersion">Version</label>
+                                        <input id="marketAndroidVersion" name="marketAndroidVersion" type="text" placeholder="market version" value="@product.market.marketAndroidVersion">
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="large-6 medium-6 columns">
+                                        <label>Publish</label>
+                                        <div class="switch">
+
+                                            @if(product.market.marketAndroidIsActive) {
+                                                <input id="marketAndroidIsActive" name="marketAndroidIsActive" type="checkbox" checked>
+                                            } else {
+                                                <input id="marketAndroidIsActive" name="marketAndroidIsActive" type="checkbox">
+                                            }
+                                            <label for="marketAndroidIsActive"></label>
+                                        </div>
+                                    </div>
+                                    <div class="large-6 medium-6 columns">
+                                        <label>Free</label>
+                                        <div class="switch">
+                                            @if(product.market.marketAndroidPricing > 0) {
+                                                <input id="marketAndroidIsFree" name="marketAndroidIsFree" type="checkbox" >
+                                            } else {
+                                                <input id="marketAndroidIsFree" name="marketAndroidIsFree" type="checkbox" checked>
+                                            }
+                                            <label for="marketAndroidIsFree"></label>
+                                        </div>
+                                        <label for="marketAndroidPricing">Pricing</label>
+                                        <input id="marketAndroidPricing" name="marketAndroidPricing" type="text" placeholder="market pricing" value="@product.market.marketAndroidPricing">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="large-6 medium-6 columns">
+                            <h4>Ios</h4>
+                            <div class="panel">
+                                <div class="row">
+                                    <div class="large-12 medium-12 columns">
+                                        <label for="marketIosUrl">Market Url</label>
+                                        <input id="marketIosUrl" name="marketIosUrl" type="text" placeholder="market Ios market url" value="@product.market.marketIosUrl">
+
+                                        <label for="marketIosIconUrl">Market Icon Url</label>
+                                        <input id="marketIosIconUrl" name="marketIosIconUrl" type="text" placeholder="market icon url" value="@product.market.marketIosIconUrl">
+
+                                        <label for="marketIosVersion">Version</label>
+                                        <input id="marketIosVersion" name="marketIosVersion" type="text" placeholder="market version" value="@product.market.marketIosVersion">
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="large-6 medium-6 columns">
+                                        <label>Publish</label>
+                                        <div class="switch">
+
+                                            @if(product.market.marketIosIsActive) {
+                                                <input id="marketIosIsActive" name="marketIosIsActive" type="checkbox" checked>
+                                            } else {
+                                                <input id="marketIosIsActive" name="marketIosIsActive" type="checkbox">
+                                            }
+                                            <label for="marketIosIsActive"></label>
+                                        </div>
+                                    </div>
+                                    <div class="large-6 medium-6 columns">
+                                        <label>Free</label>
+                                        <div class="switch">
+                                            @if(product.market.marketIosPricing > 0) {
+                                                <input id="marketIosIsFree" name="marketIosIsFree" type="checkbox" >
+                                            } else {
+                                                <input id="marketIosIsFree" name="marketIosIsFree" type="checkbox" checked>
+                                            }
+                                            <label for="marketIosIsFree"></label>
+                                        </div>
+                                        <label for="marketIosPricing">Pricing</label>
+                                        <input id="marketIosPricing" name="marketIosPricing" type="text" placeholder="market pricing" value="@product.market.marketIosPricing">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+
+                    <div class="row">
+
+                        <div class="large-12 columns">
+                            <button type="submit" class="button radius success">Update Product</button>
+
+                        </div>
+                    </div>
+                </fieldset>
+            }
+        </div>
+    }

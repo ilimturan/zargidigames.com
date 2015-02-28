@@ -1,0 +1,54 @@
+# Routes
+# This file defines all application routes (Higher priority routes first)
+# ~~~~
+
+# Home page
+GET         /                                                controllers.Application.index()
+GET         /detail/:id                                      controllers.Application.productDetail(id: Long)
+GET         /category/:type                                  controllers.Application.productCategory(type: String)
+GET         /page/:type                                      controllers.Application.showPage(type: String)
+GET         /post/:id                                        controllers.Application.showPost(id: Long)
+
+GET         /admin/newadminform                              controllers.Admin.newadminform()
+POST        /admin/newadmin                                  controllers.Admin.newadmin()
+
+GET         /admin/logout                                    controllers.Admin.logout()
+GET         /admin/loginform                                 controllers.Admin.loginform()
+GET         /admin                                           controllers.Admin.loginform()
+POST        /admin/login                                     controllers.Admin.login()
+
+GET         /admin/site/setting                              controllers.Admin.siteSetting()
+POST        /admin/site/setting                              controllers.Admin.siteSettingUpdate()
+
+GET         /admin/adminpage                                 controllers.Admin.adminpage()
+
+
+GET         /admin/post/new                                  controllers.Admin.adminPostNew()
+GET         /admin/post/edit/:id                             controllers.Admin.adminPostEdit(id: Long)
+POST        /admin/post/save                                 controllers.Admin.adminPostSave()
+POST        /admin/post/update/:id                           controllers.Admin.adminPostEditUpdate(id: Long)
+GET         /admin/post/all                                  controllers.Admin.adminPostAll()
+
+
+GET         /admin/product/all                               controllers.ControllerProduct.adminProductAll()
+GET         /admin/product/newform                           controllers.ControllerProduct.adminProductNewForm()
+POST        /admin/product/add                               controllers.ControllerProduct.adminProductAdd()
+
+
+GET         /admin/product/edit/:id                          controllers.ControllerProduct.adminProductEdit(id:Long)
+POST        /admin/product/edit/:id                          controllers.ControllerProduct.adminProductUpdate(id:Long)
+POST        /admin/img/upload/:productId/:productType        controllers.ControllerProduct.adminProductUploadImage(productId:Long, productType:Long)
+POST        /admin/img/remove/:imgId/:imgType                controllers.ControllerProduct.adminProductRemoveImage(imgId:Long, imgType:Long)
+POST        /admin/video/upload/:productId                   controllers.ControllerProduct.adminProductUploadVideo(productId:Long)
+POST        /admin/video/remove/:videoId                     controllers.ControllerProduct.adminProductRemoveVideo(videoId:Long)
+
+GET         /admin/file/all                                  controllers.Admin.adminAllFile()
+POST        /admin/file/upload                               controllers.Admin.adminUploadFile()
+GET         /admin/file/remove/:id                           controllers.Admin.adminRemoveFile(id: Long)
+
+
+
+
+# Map static resources from the /public folder to the /assets URL path
+GET         /assets/*file                                    controllers.Assets.at(path="/public", file)
+GET         /public/*file                                    controllers.Assets.at(path="/public", file)

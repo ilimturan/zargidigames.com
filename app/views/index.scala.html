@@ -1,0 +1,167 @@
+@(company: Company, products: List[Product], apps: List[Product], games: List[Product], posts: List[Post])
+
+@main(company, products, apps, games ) {
+
+    @for(product <- products if (product.isSoon)) {
+        <section id="homepage-hero">
+            <div style="background:url(@routes.Assets.at("images/stars.svg") )">
+
+                <div class="row">
+                    <div class="medium-7 large-6 columns">
+                        <h1>@product.title</h1> <br>
+                        <h3>@product.descShort</h3>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="large-4 medium-6 columns">
+                        @*
+                        <a href="develop/download.html" class="large button hide-for-small">Show</a>
+                        *@
+                    </div>
+                </div>
+                <div class="z-soon-c">
+                    <img class="z-soon-img" src="@routes.Assets.at("images/product/futureGraphic/" + product.futureGraphic.fileName)">
+                </div>
+
+            </div>
+        </section>
+    }
+    @***Apps*****@
+    <div class="row">
+        <div class="large-12 columns z-title-gruop z-blue">
+            <h5>Applications</h5>
+            <a class="" href="@routes.Application.productCategory("applications")">See All Apps →</a>
+         </div>
+        <div class="large-12 columns z-last">
+            <div class="row">
+            @for(product <- apps) {
+
+
+                <div class="large-3  medium-6 small-6 columns z-centered-text ">
+                    <div class="z-product-container">
+                        <div class="row">
+                            <div class="large-12  medium-12 small-12 columns ">
+
+                                <a href="@routes.Application.productDetail(product.id)">
+                                    <img class="z-img-full z-m-img" src="@routes.Assets.at("images/product/futureGraphic/" + product.futureGraphic.fileName)">
+                                </a>
+                                @*
+                                <div class="">
+                                    <h4>@product.title</h4>
+                                     <p>@product.descShort</p>
+                                </div>*@
+                            </div>
+
+                            <div class="large-12 medium-12 small-12 columns">
+                                <div class="row">
+                                    @if(product.market.marketIosIsActive) {
+                                        <div class="large-6 medium-6 small-12 columns">
+                                            <a href="@product.market.marketIosUrl" target="_blank">
+                                                <img class="z-img-full z-icon-market" src="@routes.Assets.at("images/" + product.market.marketIosIconUrl)">
+                                            </a>
+                                        </div>
+                                    }
+                                    @if(product.market.marketAndroidIsActive) {
+                                        <div class="large-6 medium-6 small-12 columns">
+                                            <a href="@product.market.marketAndroidUrl" target="_blank">
+                                                <img class="z-img-full z-icon-market" src="@routes.Assets.at("images/" + product.market.marketAndroidIconUrl)">
+                                            </a>
+                                        </div>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+            </div>
+        </div>
+    </div>
+    @***Games*****@
+    <div class="row">
+        <div class="large-12 columns z-title-gruop z-orange">
+            <h5>Games</h5>
+            <a class="" href="@routes.Application.productCategory("games")">See All Games →</a>
+        </div>
+        <div class="large-12 columns z-last">
+            <div class="row">
+            @for(product <- games) {
+
+
+                <div class="large-3  medium-6 small-6 columns z-centered-text ">
+                    <div class="z-product-container">
+                        <div class="row">
+                            <div class="large-12  medium-12 small-12 columns ">
+
+                                <a href="@routes.Application.productDetail(product.id)">
+                                    <img class="z-img-full z-m-img" src="@routes.Assets.at("images/product/futureGraphic/" + product.futureGraphic.fileName)">
+                                </a>
+                                @*
+                                <div class="">
+                                    <h4>@product.title</h4>
+                                     <p>@product.descShort</p>
+                                </div>*@
+                            </div>
+
+                            <div class="large-12 medium-12 small-12 columns">
+                                <div class="row">
+                                    @if(product.market.marketIosIsActive) {
+                                        <div class="large-6 medium-6 small-12 columns">
+                                            <a href="@product.market.marketIosUrl" target="_blank">
+                                                <img class="z-img-full z-icon-market" src="@routes.Assets.at("images/" + product.market.marketIosIconUrl)">
+                                            </a>
+                                        </div>
+                                    }
+                                    @if(product.market.marketAndroidIsActive) {
+                                        <div class="large-6 medium-6 small-12 columns">
+                                            <a href="@product.market.marketAndroidUrl" target="_blank">
+                                                <img class="z-img-full z-icon-market" src="@routes.Assets.at("images/" + product.market.marketAndroidIconUrl)">
+                                            </a>
+                                        </div>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+            </div>
+        </div>
+    </div>
+    @******post***@
+    <div class="row">
+        <div class="large-12 columns z-title-gruop z-gray">
+            <h5>Posts</h5>
+        </div>
+        <div class="large-12 columns">
+            <div class="row">
+
+                @for(post <- posts) {
+
+                    <div class="large-6 medium-6 columns">
+                        <div class="panel">
+                            <div class="row">
+                                <div class="large-2 small-6 columns">
+                                    <img src="http://placehold.it/300x300&text=Site Owner">
+                                </div>
+                                <div class="large-10 small-6 columns">
+                                    <strong>@post.title.substring(0, 100) <hr/></strong>
+                                    @post.text.substring(0, 180)
+                                    <br>
+                                    <a class="small" href="@routes.Application.showPost(post.id)">Read →</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+}
+

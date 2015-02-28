@@ -1,0 +1,31 @@
+@(company: Company, products: List[Product], apps: List[Product], games: List[Product], posts: List[Post], post: Post)
+
+@main(company, products, apps, games) {
+
+    <div class="row">
+        <hr>
+    </div>
+    <div class="row">
+        <div class="large-9 columns" role="content">
+            <article>
+                <h3><a href="#">@post.title</a></h3>
+                <h4><small>@post.createdAt</small></h4>
+                <div class="row">
+                    <div class="large-12 columns">
+                        <img class="z-post-img" src="http://placehold.it/400x240&amp;text=[img]">
+                        <p>@post.text</p>
+                    </div>
+                </div>
+            </article>
+        </div>
+        <aside class="large-3 columns">
+            <h5>Other Post</h5>
+            <ul class="side-nav">
+            @for(p <- posts if (p.isActive && p.id != post.id)) {
+                <li><a href="@routes.Application.showPost(p.id)">@p.title</a></li>
+            }
+            </ul>
+        </aside>
+    </div>
+
+}

@@ -1,0 +1,33 @@
+@(products: List[Product])
+
+@adminmain("All Product") {
+    <div class="large-12 columns">
+        @if(products.length > 0) {
+            <table class="responsive z-file-list-table">
+                <tbody>
+                    <tr>
+                        <th>Id</th>
+                        <th>title</th>
+                        <th>desc</th>
+                        <th>show main</th>
+                        <th>action</th>
+                    </tr>
+                    @for(product <- products) {
+                        <tr>
+                            <td>@product.id</td>
+                            <td>@product.title</td>
+                            <td>@product.descShort</td>
+                            <td>@product.showMainPage</td>
+                            <td><a href="@routes.ControllerProduct.adminProductEdit(product.id)">Edit</a></td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+        @if(products.length < 1) {
+            <div data-alert class="alert-box info ">
+                <h5>We don't have any product at the moment bro, add new product now</h5>
+            </div>
+        }
+    </div>
+}

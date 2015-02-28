@@ -1,0 +1,41 @@
+@(myForm: Form[AdminSignInForm])
+@import helper._
+@adminmain("Please login") {
+    <div class="large-12 columns"></div>
+    <div class="large-12 columns i-box">
+
+        @if(flash.contains("error")){
+        <p data-alert class="alert-box warning ">
+            @flash.get("error")
+        </p>
+        }
+        @if(flash.contains("success")){
+        <p data-alert class="alert-box info ">
+            @flash.get("success")
+        </p>
+        }
+        @if(flash.contains("info")){
+        <p data-alert class="alert-box info ">
+            @flash.get("info")
+        </p>
+        }
+        @helper.form(action = routes.Admin.login, 'class -> "pure-form pure-form-stacked"){
+
+            <fieldset>
+                <legend>A Login Form</legend>
+
+                <label for="emailAddress">Email</label>
+                <input id="emailAddress" name="emailAddress" type="email" placeholder="Email">
+
+                <label for="passWord">Password</label>
+                <input id="passWord" name="passWord" type="password" placeholder="Password">
+
+                <button type="submit" class="button radius">Sign in</button>
+                <label> </label>
+                @* <a href="@routes.Admin.newadminform()">Sign Up</a> *@
+            </fieldset>
+        }
+    </div>
+    <div class="large-12 columns"></div>
+
+}

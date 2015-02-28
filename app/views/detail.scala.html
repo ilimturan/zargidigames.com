@@ -1,0 +1,118 @@
+@(company: Company, products: List[Product], apps: List[Product], games: List[Product], product: Product)
+
+    @main(company, products, apps, games) {
+
+
+        <div class="row">
+            <hr>
+
+            <div class="large-4 medium-4 columns">
+                <img class="z-img-full" src="@routes.Assets.at("images/product/futureGraphic/" + product.futureGraphic.fileName)">
+            </div>
+
+            <div class="large-8  medium-8 columns">
+                <h3>@product.title</h3>
+
+                <h4>
+                    <span class="round label">
+                        Android
+                        @if(product.market.marketAndroidIsFree) {
+                            <span class="round success label">Free</span>
+                        } else {
+                            <span class="round alert label">@product.market.marketAndroidPricing</span>
+                        }
+                    </span>
+                    <span class="round label">
+                        Ios
+                        @if(product.market.marketIosIsFree) {
+                            <span class="round success label">Free</span>
+                        } else {
+                            <span class="round alert label">@product.market.marketIosPricing</span>
+                        }
+                    </span>
+                </h4>
+                <p><strong>@product.descShort</strong></p>
+                <p>@product.descFull</p>
+                <i class="fi-social-twitter"></i>
+            </div>
+        </div>
+
+        @if(product.videos.size() > 0) {
+            <div class="row">
+                <hr>
+                <div class="large-12 columns">
+                    <h4>Video</h4>
+                    <ul class="clearing-thumbs small-block-grid-1 medium-block-grid-2 large-block-grid-2" >
+                    @for(video <- product.videos) {
+                        <li>
+                            <div class="flex-video">
+                            @Html(video.videoHtmlCode)
+                            </div>
+                        </li>
+                    }
+                    </ul>
+                </div>
+            </div>
+        }
+        @if(product.imagesPhone.size() > 0) {
+            <div class="row">
+                <hr>
+                <div class="large-12 columns">
+                    <h4>Phone</h4>
+                    <ul class="clearing-thumbs small-block-grid-1 medium-block-grid-2 large-block-grid-4" data-clearing="">
+                    @for(img <- product.imagesPhone) {
+                        <li>
+                            <a href="#">
+                                <img class="z-img-full" data-caption="caption here..." src="@routes.Assets.at("images/product/phone/" + img.fileName)">
+                            </a>
+                        </li>
+                    }
+                    </ul>
+                </div>
+            </div>
+        }
+        @if(product.imagesTablet.size() > 0) {
+            <div class="row">
+                <hr>
+                <div class="large-12 columns">
+                    <h4>Tablet</h4>
+                    <ul class="clearing-thumbs small-block-grid-1 medium-block-grid-2 large-block-grid-4" data-clearing="">
+                    @for(img <- product.imagesTablet) {
+                        <li>
+                            <a href="#">
+                                <img class="z-img-full" data-caption="caption here..." src="@routes.Assets.at("images/product/tablet/" + img.fileName)">
+                            </a>
+                        </li>
+                    }
+                    </ul>
+                </div>
+            </div>
+        }
+       
+
+        <div class="row">
+            <hr>
+            @*
+            <div class="large-12 columns">
+                <h4>Download</h4>
+            </div>
+            *@
+            @if(product.market.marketIosIsActive) {
+                <div class="large-6 medium-6 small-12 columns">
+                    <a href="@product.market.marketIosUrl" target="_blank">
+                        <img class="z-img-full z-icon-market" src="@routes.Assets.at("images/" + product.market.marketIosIconUrl)">
+                    </a>
+                </div>
+            }
+            @if(product.market.marketAndroidIsActive) {
+                <div class="large-6 medium-6 small-12 columns">
+                    <a href="@product.market.marketAndroidUrl" target="_blank">
+                        <img class="z-img-full z-icon-market" src="@routes.Assets.at("images/" + product.market.marketAndroidIconUrl)">
+                    </a>
+                </div>
+            }
+        </div>
+
+
+    }
+

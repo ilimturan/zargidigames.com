@@ -1,0 +1,48 @@
+@(myForm: Form[Product])
+
+    @adminmain("Add new Product") {
+        <div class="large-12 columns">
+            @if(flash.contains("error")) {
+                <p data-alert class="alert-box warning ">
+                @flash.get("error")
+                </p>
+            }
+
+            @if(flash.contains("success")) {
+                <p data-alert class="alert-box info ">
+                @flash.get("success")
+                </p>
+            }
+            @if(flash.contains("info")) {
+                <p data-alert class="alert-box info ">
+                @flash.get("info")
+                </p>
+            }
+            @helper.form(action = routes.ControllerProduct.adminProductAdd(), 'enctype -> "multipart/form-data", 'class -> "pure-form pure-form-stacked") {
+
+                <fieldset>
+                    <legend>Create A Product</legend>
+
+                    <div class="">
+                        <label>Select product type</label>
+                        <input type="radio" name="ptype" value="1" id="ptype"><label for="ptype">Application</label>
+                        <input type="radio" name="ptype" value="2" id="ptype"><label for="ptype">Game</label>
+                    </div>
+
+
+                    <label for="title">Product title</label>
+                    <input id="title" name="title" type="text" placeholder="Product title">
+
+                    <label for="descShort">Product short description </label>
+                    <textarea id="descShort" name="descShort" type="text" placeholder="Product short description"></textarea>
+
+                    <label for="descFull">Product full description</label>
+                    <textarea id="descFull" name="descFull" type="text" rows="5" placeholder="Product full description"></textarea>
+
+
+                    <button type="submit" class="button radius">Add Product</button>
+                </fieldset>
+            }
+        </div>
+
+    }

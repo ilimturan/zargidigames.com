@@ -1,0 +1,44 @@
+@(myForm: Form[User])
+@import helper._
+@adminmain("Please signup") {
+    <div class="large-12 columns"></div>
+    <div class="large-12 columns i-box">
+        @if(flash.contains("error")){
+            <p data-alert class="alert-box warning ">
+                @flash.get("error")
+            </p>
+        }
+        @if(flash.contains("success")){
+        <p data-alert class="alert-box info ">
+            @flash.get("success")
+        </p>
+        }
+        @if(flash.contains("info")){
+        <p data-alert class="alert-box info ">
+            @flash.get("info")
+        </p>
+        }
+        @helper.form(action = routes.Admin.newadmin, 'class -> "pure-form pure-form-stacked"){
+
+            <fieldset>
+                <legend>A New Form</legend>
+
+                <label for="userName">Username</label>
+                <input id="userName" name="userName" type="text" placeholder="User name">
+
+                <label for="fullName">Full name</label>
+                <input id="fullName" name="fullName" type="text" placeholder="Full name">
+
+                <label for="emailAddress">Email Address</label>
+                <input id="emailAddress" name="emailAddress" type="email" placeholder="Email">
+
+                <label for="passWord">Password</label>
+                <input id="passWord" name="passWord" type="password" placeholder="Password">
+
+                <button type="submit" class="button radius">Sign up</button>
+            </fieldset>
+        }
+    </div>
+    <div class="large-12 columns"></div>
+
+}

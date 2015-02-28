@@ -1,0 +1,168 @@
+@(company: Company)
+
+    @adminmain("Setting") {
+        <div class="large-12 columns">
+            @if(flash.contains("error")) {
+                <p data-alert class="alert-box warning ">
+                @flash.get("error")
+                </p>
+            }
+
+            @if(flash.contains("success")) {
+                <p data-alert class="alert-box info ">
+                @flash.get("success")
+                </p>
+            }
+            @if(flash.contains("info")) {
+                <p data-alert class="alert-box info ">
+                @flash.get("info")
+                </p>
+            }
+            @helper.form(action = routes.Admin.siteSettingUpdate(), 'enctype -> "multipart/form-data", 'class -> "xxxxxx") {
+
+                <fieldset>
+                    <legend>Site Setting</legend>
+                    <input type="hidden" name="cId" value="@company.cId">
+                    <div class="row">
+                        <div class="large-12 columns">
+                            <label>Select Status
+                                <select name="cSiteStatus">
+                                    <option value="1" @if(company.cSiteStatus == 1){ selected }>Active</option>
+                                    <option value="2" @if(company.cSiteStatus == 2){ selected }>Deactive</option>
+                                    <option value="3" @if(company.cSiteStatus == 3){ selected }>Soon</option>
+                                </select>
+                            </label>
+                        </div>
+                    </div>
+
+
+                    <div class="row">
+                        <div class="large-12 columns">
+                            <label>Name</label>
+                            <input id="cName" name="cName" type="text" value="@company.cName">
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="large-12 columns">
+                            <label>Logo</label>
+                            <input id="cLogo" name="cLogo" type="text" value="@company.cLogo">
+                        </div>
+                    </div>
+
+
+                    <div class="row">
+                        <div class="large-12 columns">
+                            <label>Slogan</label>
+                            <input id="cSlogan" name="cSlogan" type="text" value="@company.cSlogan">
+                        </div>
+                    </div>
+
+
+                    <div class="row">
+                        <div class="large-12 columns">
+                            <label>City</label>
+                            <input id="cCity" name="cCity" type="text" value="@company.cCity">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="large-12 columns">
+                            <label>Country</label>
+                            <input id="cCountry" name="cCountry" type="text" value="@company.cCountry">
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="large-12 columns">
+                            <label>About</label>
+                            <textarea id="cAbout" name="cAbout" rows="6">@company.cAbout</textarea>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="large-12 columns">
+                            <label>Facebook address</label>
+                            <input id="cFacebookAddress" name="cFacebookAddress" type="url" value="@company.cFacebookAddress">
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="large-12 columns">
+                            <label>Twitter address</label>
+                            <input id="cTwitterAddress" name="cTwitterAddress" type="url" value="@company.cTwitterAddress">
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="large-12 columns">
+                            <label>Linkedin address</label>
+                            <input id="cLinkedinAddress" name="cLinkedinAddress" type="url" value="@company.cLinkedinAddress">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="large-12 columns">
+                            <label>Google Plus address</label>
+                            <input id="cGoogleplusAddress" name="cGoogleplusAddress" type="url" value="@company.cGoogleplusAddress">
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="large-12 columns">
+                            <label>Web</label>
+                            <input id="cWebAddress" name="cWebAddress" type="url" value="@company.cWebAddress">
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="large-12 columns">
+                            <label>Email</label>
+                            <input id="cEmailAddress" name="cEmailAddress" type="email" value="@company.cEmailAddress">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="large-12 columns">
+                            <label>Real adress</label>
+                            <input id="cRealAddress" name="cRealAddress" type="text" value="@company.cRealAddress">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="large-12 columns">
+                            <label>Phone number</label>
+                            <input id="cPhone" name="cPhone" type="number" value="@company.cPhone">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="large-12 columns">
+                            <label>Html title</label>
+                            <input id="cTitle" name="cTitle" type="text" value="@company.cTitle">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="large-12 columns">
+                            <label>Html description</label>
+                            <input id="cSiteDescription" name="cSiteDescription" type="text" value="@company.cSiteDescription">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="large-12 columns">
+                            <label>Html keywords</label>
+                            <input id="cSiteKeywords" name="cSiteKeywords" type="text" value="@company.cSiteKeywords">
+                        </div>
+                    </div>
+
+
+
+
+                    <div class="row">
+                        <div class="large-12 columns">
+                            <button type="submit" class="button radius success">Update</button>
+                        </div>
+                    </div>
+
+
+
+                </fieldset>
+            }
+        </div>
+
+    }

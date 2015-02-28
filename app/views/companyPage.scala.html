@@ -1,0 +1,146 @@
+@(company: Company, products: List[Product], apps: List[Product], games: List[Product], pageTitle: String)
+
+@main(company, products, apps, games) {
+
+    <div class="row">
+        <hr>
+    </div>
+    <div class="row">
+        <div class="large-9 columns" role="content">
+            <article>
+
+
+                @if(pageTitle.equals("CONTACT")) {
+
+                    <h3>@pageTitle</h3>
+                    <div class="row">
+                        <div class="large-12 columns">
+                            <table>
+                                <tbody>
+
+                                    @if(!company.cEmailAddress.isEmpty) {
+                                        <tr>
+                                            <td>
+                                                <strong>Email</strong>
+                                            </td>
+                                            <td>
+                                            @company.cEmailAddress
+                                            </td>
+                                        </tr>
+                                    }
+
+                                    @if(!company.cWebAddress.isEmpty) {
+                                        <tr>
+                                            <td>
+                                                <strong>Web</strong>
+                                            </td>
+                                            <td>
+                                            @company.cWebAddress
+                                            </td>
+                                        </tr>
+                                    }
+
+                                    @if(!company.cRealAddress.isEmpty) {
+                                        <tr>
+                                            <td>
+                                                <strong>Address</strong>
+                                            </td>
+                                            <td>
+                                            @company.cRealAddress
+                                            </td>
+                                        </tr>
+                                    }
+                                    @if(!company.cPhone.isEmpty) {
+                                        <tr>
+                                            <td>
+                                                <strong>Phone</strong>
+                                            </td>
+                                            <td>
+                                            @company.cPhone
+                                            </td>
+                                        </tr>
+                                    }
+                                    @if(!company.cCity.isEmpty) {
+                                        <tr>
+                                            <td>
+                                                <strong>City</strong>
+                                            </td>
+                                            <td>
+                                            @company.cCity
+                                            </td>
+                                        </tr>
+                                    }
+
+                                    @if(!company.cCountry.isEmpty) {
+                                        <tr>
+                                            <td>
+                                                <strong>Country</strong>
+                                            </td>
+                                            <td>
+                                            @company.cCountry
+                                            </td>
+                                        </tr>
+                                    }
+
+                                </tbody>
+                            </table>
+
+
+                        </div>
+                    </div>
+                }
+
+                @if(pageTitle.equals("ABOUT")) {
+                    <div class="row">
+                        <div class="large-12 columns">
+                        @Html(company.cAbout)
+
+                        </div>
+                    </div>
+                }
+
+            </article>
+        </div>
+        <aside class="large-3 columns">
+            <h5>Other Pages</h5>
+            <ul class="side-nav">
+                @if(pageTitle.equals("CONTACT")) {
+                    <li><a href="@routes.Application.showPage("about")">About</a></li>
+                }
+                @if(pageTitle.equals("ABOUT")) {
+                    <li><a href="@routes.Application.showPage("contact")">Contact</a></li>
+                }
+            </ul>
+        </aside>
+
+            <div class="large-12 columns">
+                <hr>
+                <div class="z-social-c">
+                    @if(!company.cFacebookAddress.isEmpty) {
+                        <a target="_blank" href="@company.cFacebookAddress" class="webicon facebook large" style="background:url('@routes.Assets.at("stylesheets/webicons/webicon-facebook.png") ')">
+                            Facebook</a>
+                    }
+
+                    @if(!company.cTwitterAddress.isEmpty) {
+                        <a target="_blank" href="@company.cTwitterAddress" class="webicon twitter large" style="background:url('@routes.Assets.at("stylesheets/webicons/webicon-twitter.png") ')">
+                            Twitter</a>
+                    }
+
+                    @if(!company.cLinkedinAddress.isEmpty) {
+                        <a target="_blank" href="@company.cLinkedinAddress" class="webicon linkedin large" style="background:url('@routes.Assets.at("stylesheets/webicons/webicon-linkedin.png") ')">
+                            Linkedin</a>
+                    }
+
+                    @if(!company.cGoogleplusAddress.isEmpty) {
+                        <a target="_blank" href="@company.cGoogleplusAddress" class="webicon linkedin large" style="background:url('@routes.Assets.at("stylesheets/webicons/webicon-googleplus.png") ')">
+                            Google plus</a>
+                    }
+
+                </div>
+
+            </div>
+    </div>
+
+
+}
+

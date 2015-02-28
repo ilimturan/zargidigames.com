@@ -1,0 +1,33 @@
+@(posts: List[Post])
+
+@adminmain("All Post") {
+    <div class="large-12 columns">
+        @if(posts.length > 0) {
+        <table class="responsive z-file-list-table">
+            <tbody>
+                <tr>
+                    <th>Id</th>
+                    <th>title</th>
+                    <th>desc</th>
+                    <th>Show main</th>
+                    <th>action</th>
+                </tr>
+                @for(post <- posts) {
+                    <tr>
+                        <td>@post.id</td>
+                        <td>@post.title</td>
+                        <td>@post.text.substring(0, 100)</td>
+                        <td>@post.showMainPage</td>
+                        <td><a href="@routes.Admin.adminPostEdit(post.id)">Edit</a></td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+        }
+        @if(posts.length < 1) {
+            <div data-alert class="alert-box info ">
+                <h5>We don't have any post at the moment bro, add new post now</h5>
+            </div>
+        }
+    </div>
+}

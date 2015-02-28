@@ -1,0 +1,61 @@
+@(company: Company, products: List[Product], apps: List[Product], games: List[Product], categoryProducts: List[Product], categoryTitle: String)
+
+@main(company, products, apps, games ) {
+
+
+    <div class="row">
+        <div class="large-12 columns z-title-gruop z-blue">
+            <h4>@categoryTitle</h4>
+         </div>
+        <div class="large-12 columns z-last">
+            <div class="row">
+            @for(product <- categoryProducts) {
+
+
+                <div class="large-3  medium-6 small-6 columns z-centered-text ">
+                    <div class="z-product-container">
+                        <div class="row">
+                            <div class="large-12  medium-12 small-12 columns ">
+
+                                <a href="@routes.Application.productDetail(product.id)">
+                                    <img class="z-img-full" src="@routes.Assets.at("images/product/futureGraphic/" + product.futureGraphic.fileName)">
+                                </a>
+                                <div class="">
+                                    <h4>@product.title</h4>
+                                    @* <p>@product.descShort</p> *@
+                                </div>
+                            </div>
+
+                            <div class="large-12 medium-12 small-12 columns">
+                                <div class="row">
+                                    @if(product.market.marketIosIsActive) {
+                                        <div class="large-6 medium-6 small-12 columns">
+                                            <a href="@product.market.marketIosUrl" target="_blank">
+                                                <img class="z-img-full z-icon-market" src="@routes.Assets.at("images/" + product.market.marketIosIconUrl)">
+                                            </a>
+                                        </div>
+                                    }
+                                    @if(product.market.marketAndroidIsActive) {
+                                        <div class="large-6 medium-6 small-12 columns">
+                                            <a href="@product.market.marketAndroidUrl" target="_blank">
+                                                <img class="z-img-full z-icon-market" src="@routes.Assets.at("images/" + product.market.marketAndroidIconUrl)">
+                                            </a>
+                                        </div>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+
+}
+
