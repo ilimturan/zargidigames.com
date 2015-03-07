@@ -163,6 +163,9 @@ create table user (
   email_address             varchar(255),
   pass_word                 varchar(255),
   is_active                 tinyint(1) default 0,
+  auth_token                varchar(255),
+  constraint uq_user_user_name unique (user_name),
+  constraint uq_user_email_address unique (email_address),
   constraint pk_user primary key (id))
 ;
 

@@ -1,46 +1,38 @@
 package controllers;
 
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import helpers.*;
 import models.*;
 import play.Play;
 import play.mvc.*;
-
 import play.data.Form;
 import play.mvc.Http.*;
-
 import java.io.File;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
-
 import play.libs.Json;
 
 /**
  * Created by ilimturan on 21/02/15.
  */
-public class ControllerProduct extends Controller {
+@Security.Authenticated(SecuredUser.class)
+public class DashBoard extends Controller {
 
+    public final static String AUTH_TOKEN_HEADER = "X-AUTH-TOKEN-ZRGD";
+    public static final String AUTH_TOKEN = "zrgdAuthToken";
+
+    private static final Form<Post> adminPostForm = Form.form(Post.class);
+    private static final Form<Company> companyForm = Form.form(Company.class);
 
     private static final Form<Product> productForm = Form.form(Product.class);
     private static final Form<ProductMarket> productMarketForm = Form.form(ProductMarket.class);
 
     public static Result adminProductNewForm() {
 
-        //Login değilse
-        if (session().get("connected") == null || session().get("id") == null) {
-            return redirect(routes.Admin.loginform());
-        }
-
         return ok(views.html.adminProductNewForm.render(productForm));
     }
 
 
     public static Result adminProductAdd() {
-
-        //Login değilse
-        if (session().get("connected") == null || session().get("id") == null) {
-            return redirect(routes.Admin.loginform());
-        }
 
         Form<Product> boundForm = productForm.bindFromRequest();
         if (boundForm.hasErrors()) {
@@ -61,7 +53,7 @@ public class ControllerProduct extends Controller {
                 return badRequest(views.html.adminProductNewForm.render(boundForm));
             } else {
                 flash("success", "Successfully added new product");
-                return redirect(routes.ControllerProduct.adminProductEdit(newProduct.id));
+                return redirect(routes.DashBoard.adminProductEdit(newProduct.id));
             }
 
         }
@@ -69,29 +61,17 @@ public class ControllerProduct extends Controller {
 
     public static Result adminProductEdit(Long id) {
 
-        //Login değilse
-        if (session().get("connected") == null || session().get("id") == null) {
-            return redirect(routes.Admin.loginform());
-        }
-
         Product product = Product.find.byId(id);
 
         if (product != null) {
             return ok(views.html.adminProductEditForm.render(product));
         }
 
-        return badRequest("Product doesnt exist");
-
+        return badRequest("Product doesn't exist");
 
     }
 
     public static Result adminProductUpdate(Long id) {
-
-        //Login değilse
-        if (session().get("connected") == null || session().get("id") == null) {
-            return redirect(routes.Admin.loginform());
-        }
-
 
         Form<Product> boundForm = productForm.bindFromRequest();
         Form<ProductMarket> marketForm = productMarketForm.bindFromRequest();
@@ -109,14 +89,14 @@ public class ControllerProduct extends Controller {
             Product product = boundForm.get();
 
             ProductMarket productMarket = marketForm.get();
-            if(productMarket.marketAndroidPricing > 0){
+            if (productMarket.marketAndroidPricing > 0) {
                 productMarket.marketAndroidIsFree = false;
-            }else{
+            } else {
                 productMarket.marketAndroidIsFree = true;
             }
-            if(productMarket.marketIosPricing > 0){
+            if (productMarket.marketIosPricing > 0) {
                 productMarket.marketIosIsFree = false;
-            }else{
+            } else {
                 productMarket.marketIosIsFree = true;
             }
 
@@ -127,10 +107,10 @@ public class ControllerProduct extends Controller {
 
             if (product.id == id) {
                 flash("success", "Product updated");
-                return redirect(routes.ControllerProduct.adminProductEdit(id));
+                return redirect(routes.DashBoard.adminProductEdit(id));
             } else {
                 flash("error", "Can't update product");
-                return redirect(routes.ControllerProduct.adminProductEdit(id));
+                return redirect(routes.DashBoard.adminProductEdit(id));
             }
 
         }
@@ -138,10 +118,7 @@ public class ControllerProduct extends Controller {
     }
 
     public static Result adminProductRemoveImage(Long imgId, Long imgType) {
-        //Login değilse
-        if (session().get("connected") == null || session().get("id") == null) {
-            return redirect(routes.Admin.loginform());
-        }
+
         ObjectNode result = Json.newObject();
 
         if (imgType > 0 && imgType < 7) {
@@ -192,10 +169,7 @@ public class ControllerProduct extends Controller {
 
 
     public static Result adminProductUploadImage(Long productId, Long productType) throws InterruptedException {
-        //Login değilse
-        if (session().get("connected") == null || session().get("id") == null) {
-            return redirect(routes.Admin.loginform());
-        }
+
         ObjectNode result = Json.newObject();
 
         if (productType > 0 && productType < 7) {
@@ -214,7 +188,7 @@ public class ControllerProduct extends Controller {
                     File file = picture.getFile();
 
                     String imgUploadPath = Play.application().configuration().getString("imgUploadPath") + "/product/icon";
-                    String imgFileName = clearAndGenerateFileName(picture.getFilename());
+                    String imgFileName = FileHelper.clearAndGenerateFileName(picture.getFilename());
                     file.renameTo(new File(imgUploadPath, imgFileName));
 
 
@@ -239,7 +213,7 @@ public class ControllerProduct extends Controller {
                     File file = picture.getFile();
 
                     String imgUploadPath = Play.application().configuration().getString("imgUploadPath") + "/product/futureGraphic";
-                    String imgFileName = clearAndGenerateFileName(picture.getFilename());
+                    String imgFileName = FileHelper.clearAndGenerateFileName(picture.getFilename());
                     file.renameTo(new File(imgUploadPath, imgFileName));
 
                     ImageFutureGraphic img = new ImageFutureGraphic();
@@ -263,7 +237,7 @@ public class ControllerProduct extends Controller {
                     File file = picture.getFile();
 
                     String imgUploadPath = Play.application().configuration().getString("imgUploadPath") + "/product/promoGraphic";
-                    String imgFileName = clearAndGenerateFileName(picture.getFilename());
+                    String imgFileName = FileHelper.clearAndGenerateFileName(picture.getFilename());
                     file.renameTo(new File(imgUploadPath, imgFileName));
 
                     ImagePromoGraphic img = new ImagePromoGraphic();
@@ -287,7 +261,7 @@ public class ControllerProduct extends Controller {
                     File file = picture.getFile();
 
                     String imgUploadPath = Play.application().configuration().getString("imgUploadPath") + "/product/tvBanner";
-                    String imgFileName = clearAndGenerateFileName(picture.getFilename());
+                    String imgFileName = FileHelper.clearAndGenerateFileName(picture.getFilename());
                     file.renameTo(new File(imgUploadPath, imgFileName));
 
                     ImageTvBanner img = new ImageTvBanner();
@@ -311,7 +285,7 @@ public class ControllerProduct extends Controller {
                     File file = picture.getFile();
 
                     String imgUploadPath = Play.application().configuration().getString("imgUploadPath") + "/product/phone";
-                    String imgFileName = clearAndGenerateFileName(picture.getFilename());
+                    String imgFileName = FileHelper.clearAndGenerateFileName(picture.getFilename());
                     file.renameTo(new File(imgUploadPath, imgFileName));
 
                     ImagePhone img = new ImagePhone();
@@ -338,7 +312,7 @@ public class ControllerProduct extends Controller {
                     File file = picture.getFile();
 
                     String imgUploadPath = Play.application().configuration().getString("imgUploadPath") + "/product/tablet";
-                    String imgFileName = clearAndGenerateFileName(picture.getFilename());
+                    String imgFileName = FileHelper.clearAndGenerateFileName(picture.getFilename());
                     file.renameTo(new File(imgUploadPath, imgFileName));
 
                     ImageTablet img = new ImageTablet();
@@ -378,34 +352,8 @@ public class ControllerProduct extends Controller {
         return ok(result);
     }
 
-    public static boolean checkfileType(String t) {
-        if (t.equalsIgnoreCase("image/jpeg")) {
-            return true;
-        } else if (t.equalsIgnoreCase("image/png")) {
-            return true;
-        }
-        if (t.equalsIgnoreCase("image/gif")) {
-            return true;
-        }
-        return false;
-    }
-
-    private static String clearAndGenerateFileName(String fileName) {
-
-        String newFileName = fileName.toLowerCase().replaceAll("[^a-zA-Z0-9\\._]+", "_");
-
-        Long currentTimeStamp = System.currentTimeMillis() / 1000L;
-
-        return currentTimeStamp + "_" + newFileName;
-    }
-
 
     public static Result adminProductAll() {
-
-        //Login değilse
-        if (session().get("connected") == null || session().get("id") == null) {
-            return redirect(routes.Admin.loginform());
-        }
 
         List<Product> products = Product.find.all();
 
@@ -415,10 +363,7 @@ public class ControllerProduct extends Controller {
 
 
     public static Result adminProductUploadVideo(long productId) {
-//Login değilse
-        if (session().get("connected") == null || session().get("id") == null) {
-            return redirect(routes.Admin.loginform());
-        }
+
         ObjectNode result = Json.newObject();
 
         if (productId > 0) {
@@ -458,10 +403,7 @@ public class ControllerProduct extends Controller {
     }
 
     public static Result adminProductRemoveVideo(long videoId) {
-        //Login değilse
-        if (session().get("connected") == null || session().get("id") == null) {
-            return redirect(routes.Admin.loginform());
-        }
+
         ObjectNode result = Json.newObject();
 
         if (videoId > 0) {
@@ -487,6 +429,182 @@ public class ControllerProduct extends Controller {
         }
 
         return ok(result);
+    }
+
+    public static Result adminpage() {
+
+
+        List<Product> products = Product.find.all();
+        return ok(views.html.adminProductAll.render(products));
+
+
+    }
+
+    public static Result siteSetting() {
+
+        Company company = Company.find.byId(1L);
+
+        if (company == null) {
+            company = new Company();
+            company.save();
+        }
+
+        return ok(views.html.adminSiteSetting.render(company));
+    }
+
+    public static Result siteSettingUpdate() {
+
+        Form<Company> boundForm = companyForm.bindFromRequest();
+
+        if (boundForm.hasErrors()) {
+            flash("error", "Error");
+            Company company = Company.find.byId(1L);
+            return badRequest(views.html.adminSiteSetting.render(company));
+        } else {
+            Company company = boundForm.get();
+            company.update();
+
+            flash("success", "Updated");
+            return redirect(routes.DashBoard.siteSetting());
+
+        }
+    }
+
+    public static Result adminPostNew() {
+
+        return ok(views.html.adminPostNewForm.render(adminPostForm));
+
+    }
+
+    public static Result adminPostSave() {
+
+        Form<Post> boundForm = adminPostForm.bindFromRequest();
+
+        if (boundForm.hasErrors()) {
+            flash("error", "Error");
+            return ok(views.html.adminPostNewForm.render(adminPostForm));
+        } else {
+            Post post = boundForm.get();
+            post.isActive = false;
+            //post.setUser(User.find.byId(Long.getLong(session().get("id"))));
+            post.save();
+            flash("success", "Post created");
+            return redirect(routes.DashBoard.adminPostEdit(post.id));
+
+        }
+
+    }
+
+    public static Result adminPostAll() {
+
+        List<Post> posts = Post.find.all();
+
+        return ok(views.html.adminPostAll.render(posts));
+    }
+
+    public static Result adminPostEdit(Long id) {
+
+        Post post = Post.find.byId(id);
+
+        if (post == null) {
+            badRequest("Post not found");
+        }
+
+        return ok(views.html.adminPostEditForm.render(post));
+    }
+
+    public static Result adminPostEditUpdate(Long id) {
+
+        Post post = Post.find.byId(id);
+        Form<Post> boundForm = adminPostForm.bindFromRequest();
+
+        if (post == null || boundForm.hasErrors()) {
+            flash("error", "Error");
+            return ok(views.html.adminPostEditForm.render(post));
+        } else {
+            post = boundForm.get();
+            post.update();
+            flash("success", "Post updated");
+            return redirect(routes.DashBoard.adminPostEdit(post.id));
+
+        }
+    }
+
+
+    public static Result adminUploadFile() throws InterruptedException {
+
+        ObjectNode result = Json.newObject();
+        Http.MultipartFormData body = request().body().asMultipartFormData();
+
+
+        if (body != null) {
+
+            Http.MultipartFormData.FilePart zrgFile = body.getFile("zrgFile");
+            File file = zrgFile.getFile();
+
+            String zrgfileUploadPath = Play.application().configuration().getString("fileUploadPath");
+            String zrgfileName = FileHelper.clearAndGenerateFileName(zrgFile.getFilename());
+            file.renameTo(new File(zrgfileUploadPath, zrgfileName));
+
+
+            ZrgFile newFile = new ZrgFile();
+            newFile.fileName = zrgfileName;
+            newFile.fileType = zrgFile.getContentType();
+            newFile.isActive = true;
+            newFile.fileSize = 1L;
+            newFile.save();
+
+            result.put("res", "ok");
+            result.put("message", "File uploaded");
+            result.put("path", "" + newFile.fileName);
+            result.put("id", "" + newFile.id);
+
+
+        } else {
+            result.put("res", "error");
+            result.put("message", "Error! File is empty");
+            result.put("id", 0);
+        }
+
+
+        Thread.sleep(500);
+        return ok(result);
+    }
+
+    public static Result adminAllFile() {
+
+        List<ZrgFile> files = ZrgFile.find.all();
+
+        return ok(views.html.adminZrgFileAll.render(files));
+    }
+
+    public static Result adminRemoveFile(long id) {
+
+        ZrgFile zrgfile = ZrgFile.find.byId(id);
+        if (zrgfile != null) {
+
+            String oldFileName = zrgfile.fileName;
+            String newFileName = FileHelper.clearAndGenerateRemovedFileName(zrgfile.fileName);
+            zrgfile.fileName = newFileName;
+            zrgfile.isActive = false;
+            zrgfile.update();
+
+            String zrgfilePath = Play.application().configuration().getString("fileUploadPath");
+            File oldFile = new File(zrgfilePath, oldFileName);
+            File newFile = new File(zrgfilePath, newFileName);
+            oldFile.renameTo(newFile);
+
+            if (newFile.exists()) {
+                oldFile.delete();
+                flash("success", "File is delete (Db record make passive, real file name changed 'r_')");
+            } else {
+                flash("error", "File isn't delete");
+            }
+        } else {
+            flash("error", "File not found");
+        }
+
+        return redirect(routes.DashBoard.adminAllFile());
     }
 
 

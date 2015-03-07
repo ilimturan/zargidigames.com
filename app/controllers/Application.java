@@ -3,7 +3,6 @@ package controllers;
 import models.*;
 import play.mvc.*;
 import views.html.*;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -95,9 +94,9 @@ public class Application extends Controller {
 
     public static Result showPage(String type) {
         String pageTitle;
-        if(type.equalsIgnoreCase("contact") || type.equalsIgnoreCase("about")){
+        if (type.equalsIgnoreCase("contact") || type.equalsIgnoreCase("about")) {
             pageTitle = type.toUpperCase();
-        }else{
+        } else {
             return badRequest("Not found page");
         }
 
@@ -114,8 +113,6 @@ public class Application extends Controller {
             }
 
         }
-
-
 
 
         return ok(companyPage.render(company, products, apps, games, pageTitle));

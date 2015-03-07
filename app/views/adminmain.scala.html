@@ -31,7 +31,7 @@
 
                             <ul class="button-group round right">
                                 <li><a href="@routes.Application.index()" class="small button z-float-right success">Site</a></li>
-                                @if((session().get("connected") != null) && session().get("connected").equals("ok")) {
+                                @if((session().get("user_is_connected") != null) && session().get("user_is_connected").equals("ok")) {
                                     <li><a href="@routes.Admin.logout" class="small button z-float-right">Logout</a></li>
                                 }
                             </ul>
@@ -50,19 +50,19 @@
             <div class="large-3 medium-3 columns ">
                 <div class="panel">
                     <a href="/admin"><img id="z_logo" src="@routes.Assets.at("images/logo_zargidi_games.png")"></a>
-                    @if((session().get("connected") != null) && session().get("connected").equals("ok")){
+                    @if((session().get("user_is_connected") != null) && session().get("user_is_connected").equals("ok")){
                     <ul class="side-nav">
-                        <li class="active"><a href="@routes.ControllerProduct.adminProductNewForm()">Add New Product</a></li>
-                        <li><a href="@routes.ControllerProduct.adminProductAll()">All Product</a></li>
+                        <li class="active"><a href="@routes.DashBoard.adminProductNewForm()">Add New Product</a></li>
+                        <li><a href="@routes.DashBoard.adminProductAll()">All Product</a></li>
                         <li class="divider"></li>
-                        <li><a href="@routes.Admin.siteSetting()">Site Setting</a></li>
+                        <li><a href="@routes.DashBoard.siteSetting()">Site Setting</a></li>
                         <li class="divider"></li>
                         <li><a href="@routes.Admin.newadminform()">Add new admin</a></li>
                         <li class="divider"></li>
-                        <li><a href="@routes.Admin.adminPostAll()">All post</a></li>
-                        <li><a href="@routes.Admin.adminPostNew()">Add new post</a></li>
+                        <li><a href="@routes.DashBoard.adminPostAll()">All post</a></li>
+                        <li><a href="@routes.DashBoard.adminPostNew()">Add new post</a></li>
                         <li class="divider"></li>
-                        <li><a href="@routes.Admin.adminAllFile()">All files</a></li>
+                        <li><a href="@routes.DashBoard.adminAllFile()">All files</a></li>
                     </ul>
 
                     }

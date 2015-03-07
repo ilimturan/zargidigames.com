@@ -1,13 +1,11 @@
 package models;
 
-import play.Logger;
 import play.data.validation.Constraints;
 import play.db.ebean.Model;
-
 import javax.persistence.Entity;
 import javax.persistence.*;
-import java.io.Console;
-import java.util.List;
+import java.util.UUID;
+import org.mindrot.jbcrypt.*;
 
 /**
  * Created by ilimturan on 17/11/14.
@@ -16,40 +14,45 @@ import java.util.List;
 public class User extends Model {
     @Id
     public Long id;
+
+    @Column(unique = true)
     @Constraints.Required
     @Constraints.MinLength(4)
     public String userName;
+
     @Constraints.Required
     @Constraints.MinLength(4)
     public String fullName;
+
+    @Column(unique = true)
     @Constraints.Email
     public String emailAddress;
+
     @Constraints.Required
     @Constraints.MinLength(4)
     public String passWord;
+
     public Boolean isActive;
 
     @OneToMany
     public Post posts;
 
+    public String authToken;
 
     public static Finder<Long,User> find = new Finder<Long,User>(
             Long.class, User.class
     );
 
-    /**
-     * for password hash and validation
-     * can be use user.save() in controller
-     * @return
-     */
+
     public Boolean create() {
         User user = new User();
         user.userName = this.userName;
         user.fullName = this.fullName;
         user.emailAddress = this.emailAddress;
-        user.passWord = this.passWord;
+        user.passWord = BCrypt.hashpw(passWord, BCrypt.gensalt());
+        //user.passWord = getSha512(this.passWord);
         user.isActive = true;
-        //user.passwordHash =
+        user.authToken = createToken();
         user.save();
         if(user.id > 0){
             return true;
@@ -57,32 +60,34 @@ public class User extends Model {
         return false;
     }
 
-    public Boolean login(String emailAddress, String passWord) {
+    public static User findByEmailAndPassword(String emailAddress, String passWord) {
 
         User user = User.find.where().eq("emailAddress", emailAddress).findUnique();
-
-        if(user != null){
-            if ( (passWord.equals(user.passWord)) && (user.isActive)) {
-
-                this.id = user.id;
-                this.userName = user.userName;
-                this.fullName = user.fullName;
-                this.emailAddress = user.emailAddress;
-                this.passWord = user.passWord;
-                this.isActive = true;
-
-                return true;
-            } else {
-                //Logger.error("ERROR: password not correct");
-                //Logger.error("input: " + emailAddress + "***" + passWord);
-                //Logger.error("db: " + user.toString());
-                return false;
-            }
+        if (user != null && (user.isActive) && BCrypt.checkpw(passWord, user.passWord)) {
+            return user;
         }
-        //Logger.error("ERROR: Admin not found");
-        return false;
+        return null;
     }
 
+    public static User findByAuthToken(String token) {
+
+        User user = User.find.where().eq("authToken", token).findUnique();
+
+        if((user != null) && (user.isActive) ){
+            return user;
+        }
+        return null;
+    }
+
+    public String createToken() {
+        this.authToken = UUID.randomUUID().toString();
+        return this.authToken;
+    }
+
+    public void deleteAuthToken() {
+        this.authToken = null;
+        save();
+    }
 
     @Override
     public String toString() {
@@ -93,7 +98,8 @@ public class User extends Model {
                 ", emailAddress='" + emailAddress + '\'' +
                 ", passWord='" + passWord + '\'' +
                 ", isActive=" + isActive +
-
+                ", posts=" + posts +
+                ", authToken='" + authToken + '\'' +
                 '}';
     }
 }

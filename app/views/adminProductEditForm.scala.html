@@ -17,7 +17,7 @@
                 @flash.get("info")
                 </p>
             }
-            @helper.form(action = routes.ControllerProduct.adminProductUpdate(product.id), 'enctype -> "multipart/form-data", 'class -> "pure-form pure-form-stacked") {
+            @helper.form(action = routes.DashBoard.adminProductUpdate(product.id), 'enctype -> "multipart/form-data", 'class -> "pure-form pure-form-stacked") {
 
                 <fieldset>
                     <legend>Edit Product</legend>
@@ -100,7 +100,7 @@
                         </div>
                         <div class="large-3 medium-3 columns">
                             <div style="background:url('@routes.Assets.at("images/ic_upload.png")') center no-repeat ">
-                                <input type="file" id="iconImg" class="ic-upload" accept="image/*" name="icon" multiple value="Add icon" data-url="@routes.ControllerProduct.adminProductUploadImage(product.id, 1)" />
+                                <input type="file" id="iconImg" class="ic-upload" accept="image/*" name="icon" multiple value="Add icon" data-url="@routes.DashBoard.adminProductUploadImage(product.id, 1)" />
 
                                 <div class="z_progress_container">
                                     <div class="progress small success radius round" id="iconProgress">
@@ -114,7 +114,7 @@
                         <div class="large-9 medium-9 columns" >
                             <div class="row icImgPrv" id="iconImgPrv">
                                 @if(product.icon != null && product.icon.id > 0 && product.icon.isActive) {
-                                    <div data-type="icon" data-id="@product.icon.id" class="large-4 medium-4 columns fi-cont" data-removeurl="@routes.ControllerProduct.adminProductRemoveImage(product.icon.id, 1)">
+                                    <div data-type="icon" data-id="@product.icon.id" class="large-4 medium-4 columns fi-cont" data-removeurl="@routes.DashBoard.adminProductRemoveImage(product.icon.id, 1)">
                                         <i class="fi-x large fi-delete-img"></i>
                                         <a class="th three columns" href="#">
                                             <img class="" src="@routes.Assets.at("images/product/icon/" + product.icon.fileName)">
@@ -134,7 +134,7 @@
                         </div>
                         <div class="large-3 medium-3 columns">
                             <div style="background:url('@routes.Assets.at("images/ic_upload.png")') center no-repeat">
-                                <input type="file" id="futureGraphicImg" class="ic-upload" accept="image/*" name="futureGraphic" multiple value="Add futureGraphic" data-url="@routes.ControllerProduct.adminProductUploadImage(product.id, 2)" />
+                                <input type="file" id="futureGraphicImg" class="ic-upload" accept="image/*" name="futureGraphic" multiple value="Add futureGraphic" data-url="@routes.DashBoard.adminProductUploadImage(product.id, 2)" />
 
                                 <div class="z_progress_container">
                                     <div class="progress small success radius round" id="futureGraphicProgress">
@@ -148,7 +148,7 @@
                         <div class="large-9 medium-9 columns" >
                             <div class="row icImgPrv" id="futureGraphicImgPrv">
                             @if(product.futureGraphic != null && product.futureGraphic.id > 0 && product.futureGraphic.isActive) {
-                                <div data-type="futureGraphic" data-id="@product.futureGraphic.id" class="large-4 medium-4 columns fi-cont" data-removeurl="@routes.ControllerProduct.adminProductRemoveImage(product.futureGraphic.id, 2)">
+                                <div data-type="futureGraphic" data-id="@product.futureGraphic.id" class="large-4 medium-4 columns fi-cont" data-removeurl="@routes.DashBoard.adminProductRemoveImage(product.futureGraphic.id, 2)">
                                     <i class="fi-x large fi-delete-img"></i>
                                     <a class="th three columns" href="#">
                                         <img class="" src="@routes.Assets.at("images/product/futureGraphic/" + product.futureGraphic.fileName)">
@@ -170,7 +170,7 @@
                         </div>
                         <div class="large-3 medium-3 columns">
                             <div style="background:url('@routes.Assets.at("images/ic_upload.png")') center no-repeat">
-                                <input type="file" id="promoGraphicImg" class="ic-upload" accept="image/*" name="promoGraphic" multiple value="Add promoGraphic" data-url="@routes.ControllerProduct.adminProductUploadImage(product.id, 3)" />
+                                <input type="file" id="promoGraphicImg" class="ic-upload" accept="image/*" name="promoGraphic" multiple value="Add promoGraphic" data-url="@routes.DashBoard.adminProductUploadImage(product.id, 3)" />
 
                                 <div class="z_progress_container">
                                     <div class="progress small success radius round" id="promoGraphicProgress">
@@ -184,7 +184,7 @@
                         <div class="large-9 medium-9 columns" >
                             <div class="row icImgPrv" id="promoGraphicImgPrv">
                             @if(product.promoGraphic != null && product.promoGraphic.id > 0 && product.promoGraphic.isActive) {
-                                <div data-type="promoGraphic" data-id="@product.promoGraphic.id" class="large-4 medium-4 columns fi-cont" data-removeurl="@routes.ControllerProduct.adminProductRemoveImage(product.promoGraphic.id, 3)">
+                                <div data-type="promoGraphic" data-id="@product.promoGraphic.id" class="large-4 medium-4 columns fi-cont" data-removeurl="@routes.DashBoard.adminProductRemoveImage(product.promoGraphic.id, 3)">
                                     <i class="fi-x large fi-delete-img"></i>
                                     <a class="th three columns" href="#">
                                         <img class="" src="@routes.Assets.at("images/product/promoGraphic/" + product.promoGraphic.fileName)">
@@ -205,7 +205,7 @@
                         </div>
                         <div class="large-3 medium-3 columns">
                             <div style="background:url('@routes.Assets.at("images/ic_upload.png")') center no-repeat">
-                                <input type="file" id="tvBannerImg" class="ic-upload" accept="image/*" name="tvBanner" multiple value="Add tvBanner" data-url="@routes.ControllerProduct.adminProductUploadImage(product.id, 4)" />
+                                <input type="file" id="tvBannerImg" class="ic-upload" accept="image/*" name="tvBanner" multiple value="Add tvBanner" data-url="@routes.DashBoard.adminProductUploadImage(product.id, 4)" />
 
                                 <div class="z_progress_container">
                                     <div class="progress small success radius round" id="tvBannerProgress">
@@ -219,7 +219,7 @@
                         <div class="large-9 medium-9 columns" >
                             <div class="row icImgPrv" id="tvBannerImgPrv">
                             @if(product.tvBanner != null && product.tvBanner.id > 0 && product.tvBanner.isActive) {
-                                <div data-type="tvBanner" data-id="@product.tvBanner.id" class="large-4 medium-4 columns fi-cont" data-removeurl="@routes.ControllerProduct.adminProductRemoveImage(product.tvBanner.id, 4)">
+                                <div data-type="tvBanner" data-id="@product.tvBanner.id" class="large-4 medium-4 columns fi-cont" data-removeurl="@routes.DashBoard.adminProductRemoveImage(product.tvBanner.id, 4)">
                                     <i class="fi-x large fi-delete-img"></i>
                                     <a class="th three columns" href="#">
                                         <img class="" src="@routes.Assets.at("images/product/tvBanner/" + product.tvBanner.fileName)">
@@ -239,7 +239,7 @@
                         </div>
                         <div class="large-3 medium-3 columns">
                             <div style="background:url('@routes.Assets.at("images/ic_upload.png")') center no-repeat">
-                                <input type="file" id="imagePhone" class="ic-upload" accept="image/*" name="imagePhone" multiple value="Add imagePhone" data-url="@routes.ControllerProduct.adminProductUploadImage(product.id, 5)" />
+                                <input type="file" id="imagePhone" class="ic-upload" accept="image/*" name="imagePhone" multiple value="Add imagePhone" data-url="@routes.DashBoard.adminProductUploadImage(product.id, 5)" />
 
                                 <div class="z_progress_container">
                                     <div class="progress small success radius round" id="imagePhoneProgress">
@@ -254,7 +254,7 @@
                             <div class="row icImgPrv" id="imagePhoneImgPrv">
                                 @for(imagePhone <- product.imagesPhone){
                                     @if(imagePhone.isActive) {
-                                        <div data-type="imagePhone" data-id="@imagePhone.id" class="large-4 medium-4 columns fi-cont" data-removeurl="@routes.ControllerProduct.adminProductRemoveImage(imagePhone.id, 5)">
+                                        <div data-type="imagePhone" data-id="@imagePhone.id" class="large-4 medium-4 columns fi-cont" data-removeurl="@routes.DashBoard.adminProductRemoveImage(imagePhone.id, 5)">
                                             <i class="fi-x large fi-delete-img"></i>
                                             <a class="th three columns" href="#">
                                                 <img class="" src="@routes.Assets.at("images/product/phone/" + imagePhone.fileName)">
@@ -276,7 +276,7 @@
                         </div>
                         <div class="large-3 medium-3 columns">
                             <div style="background:url('@routes.Assets.at("images/ic_upload.png")') center no-repeat">
-                                <input type="file" id="imageTablet" class="ic-upload" accept="image/*" name="imageTablet" multiple value="Add imageTablet" data-url="@routes.ControllerProduct.adminProductUploadImage(product.id, 6)" />
+                                <input type="file" id="imageTablet" class="ic-upload" accept="image/*" name="imageTablet" multiple value="Add imageTablet" data-url="@routes.DashBoard.adminProductUploadImage(product.id, 6)" />
 
                                 <div class="z_progress_container">
                                     <div class="progress small success radius round" id="imageTabletProgress">
@@ -291,7 +291,7 @@
                             <div class="row icImgPrv" id="imageTabletImgPrv">
                             @for(imageTablet <- product.imagesTablet){
                                 @if(imageTablet.isActive) {
-                                    <div data-type="imageTablet" data-id="@imageTablet.id" class="large-4 medium-4 columns fi-cont" data-removeurl="@routes.ControllerProduct.adminProductRemoveImage(imageTablet.id, 6)">
+                                    <div data-type="imageTablet" data-id="@imageTablet.id" class="large-4 medium-4 columns fi-cont" data-removeurl="@routes.DashBoard.adminProductRemoveImage(imageTablet.id, 6)">
                                         <i class="fi-x large fi-delete-img"></i>
                                         <a class="th three columns" href="#">
                                             <img class="" src="@routes.Assets.at("images/product/tablet/" + imageTablet.fileName)">
@@ -317,7 +317,7 @@
                                         <input type="text" id="productVideoInput" name="productVideoInput" placeholder="Video iframe code">
                                     </div>
                                     <div class="large-2 medium-2 small-2  columns">
-                                        <a href="#" data-url="@routes.ControllerProduct.adminProductUploadVideo(product.id)"  class="button postfix" id="productVideoButton" name="productVideoButton">Get</a>
+                                        <a href="#" data-url="@routes.DashBoard.adminProductUploadVideo(product.id)"  class="button postfix" id="productVideoButton" name="productVideoButton">Get</a>
                                     </div>
                                 </div>
                             </div>
@@ -326,7 +326,7 @@
                             <div class="row icImgPrv" id="productVideoImgPrv">
                             @for(productVideo <- product.videos if(product.videos.size() > 0)){
                                 @if(productVideo.isActive) {
-                                    <div data-type="productVideo" data-id="@productVideo.id" class="large-6 medium-6 columns" data-removeurl="@routes.ControllerProduct.adminProductRemoveVideo(productVideo.id)">
+                                    <div data-type="productVideo" data-id="@productVideo.id" class="large-6 medium-6 columns" data-removeurl="@routes.DashBoard.adminProductRemoveVideo(productVideo.id)">
                                         <i class="fi-x large fi-delete-video"></i>
                                         <div class="flex-video">
                                             @Html(productVideo.videoHtmlCode)
